@@ -10,6 +10,7 @@ namespace TemperatureEstimator.Entities
             Map(x => x.Date).Index(0);
             Map(x => x.Temperature).Index(1);
             Map(x => x.Airport).Ignore();
+            Map(x => x.Value).Ignore();
         }
     }
 }

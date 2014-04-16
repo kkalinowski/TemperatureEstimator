@@ -114,9 +114,12 @@
     <Compile Include="Entities\AvailableLocations.cs" />
     <Compile Include="Entities\DateTemperature.cs" />
     <Compile Include="Entities\DateTemperatureMap.cs" />
+    <Compile Include="Entities\IDateValue.cs" />
     <Compile Include="Entities\Location.cs" />
+    <Compile Include="EstimationEngines\IEstimationEngine.cs" />
     <Compile Include="Logic\DataDownloader.cs" />
     <Compile Include="Logic\DataManager.cs" />
+    <Compile Include="EstimationEngines\WeightedMeanEngine.cs" />
     <Compile Include="ViewModels\LocationChoiceViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="Views\LocationChoice.xaml.cs">
