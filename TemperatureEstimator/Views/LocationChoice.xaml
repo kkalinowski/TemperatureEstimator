@@ -1,0 +1,15 @@
+﻿<mah:MetroWindow x:Class="TemperatureEstimator.Views.LocationChoice"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:lib12="http://schemas.kkalinowski.net/lib12"
+        xmlns:viewModels="clr-namespace:TemperatureEstimator.ViewModels"
+        Title="Choose your location" Height="200" Width="300"
+        DataContext="{lib12:Inject viewModels:LocationChoiceViewModel}"
+        Name="_this" ResizeMode="NoResize" ShowMinButton="False" ShowMaxRestoreButton="False">
+
+    <Grid lib12:FluidGrid.Rows="32,32" VerticalAlignment="Center">
+        <ComboBox Grid.Row="0" ItemsSource="{Binding Locations}" DisplayMemberPath="City" SelectedItem="{Binding SelectedLocation}" Margin="3" Width="170"/>
+        <Button Grid.Row="1" Content="OK" Command="{Binding OkCommand}" CommandParameter="{Binding ElementName=_this}" Margin="3" Width="110"/>
+    </Grid>
+</mah:MetroWindow>
