@@ -1,6 +1,8 @@
-﻿using lib12.Collections;
+﻿using System.Configuration;
+using lib12.Collections;
 using lib12.DependencyInjection;
 using System.Windows;
+using SqlFu;
 using TemperatureEstimator.Properties;
 using TemperatureEstimator.Views;
 
@@ -19,10 +21,11 @@ namespace TemperatureEstimator
         {
             base.OnStartup(e);
 
+            SqlFuDao.ConnectionStringIs(ConfigurationManager.ConnectionStrings["mainConnString"].ConnectionString, DbEngine.SQLite);
             Instances.RegisterTransient<LocationChoice>();
             Instances.RegisterTransient<MainWindow>();
 
-            if(Settings.Default.Airport.IsNullOrEmpty())
+            if (Settings.Default.Airport.IsNullOrEmpty())
                 Instances.Get<LocationChoice>().Show();
             else
                 Instances.Get<MainWindow>().Show();
