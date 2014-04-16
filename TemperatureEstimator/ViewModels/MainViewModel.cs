@@ -3,6 +3,7 @@ using lib12.WPF.Core;
 using System.Collections.Generic;
 using TemperatureEstimator.Entities;
 using TemperatureEstimator.Logic;
+using TemperatureEstimator.Properties;
 
 namespace TemperatureEstimator.ViewModels
 {
@@ -22,7 +23,7 @@ namespace TemperatureEstimator.ViewModels
 
         public MainViewModel(DataManager dataManager)
         {
-            dataManager.Load();
+            dataManager.Load(Settings.Default.Airport);
             Data = dataManager.Data;
         }
     }

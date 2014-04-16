@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Documents;
-using lib12.DependencyInjection;
+﻿using lib12.DependencyInjection;
 using SqlFu;
+using System;
+using System.Collections.Generic;
+using System.Data.Common;
+using System.Linq;
 using TemperatureEstimator.Entities;
 
 namespace TemperatureEstimator.Logic
@@ -10,29 +11,50 @@ namespace TemperatureEstimator.Logic
     [Singleton]
     public class DataManager
     {
+        [WireUp]
+        public DataDownloader DataDownloader { get; set; }
+
         public List<DateTemperature> Data { get; set; }
 
-        public void Load()
-        {
-            CheckDb();
-            LoadDataFromDb();
-        }
-
-        private void CheckDb()
+        public void Load(string airport)
         {
             using (var db = SqlFuDao.GetConnection())
             {
-                if(!db.TableExists<DateTemperature>())
-                    db.CreateTable<DateTemperature>();
+                CheckDb(db);
+                LoadDataFromDb(db);
             }
+
+            DownloadMissingData(airport);
         }
 
-        private void LoadDataFromDb()
+        private void CheckDb(DbConnection db)
         {
+            if (!db.TableExists<DateTemperature>())
+                db.CreateTable<DateTemperature>();
+        }
+
+        private void LoadDataFromDb(DbConnection db)
+        {
+            Data = db.Query<DateTemperature>().ToList();
+        }
+
+        private void DownloadMissingData(string airport)
+        {
+            var lastMeasure = Data.Any() ? Data.Max(x => x.Date) : DateTime.Today.AddYears(-1);
+            if (lastMeasure.Date == DateTime.Today)
+                return;
+
+            var missingData = DataDownloader.DownloadTemperature(airport, lastMeasure);
             using (var db = SqlFuDao.GetConnection())
             {
-                Data = db.Query<DateTemperature>().ToList();
+                missingData.ForEach(x =>
+                {
+                    x.Airport = airport;
+                    db.Insert(x);
+                });
             }
+
+            Data.AddRange(missingData);
         }
     }
 }
