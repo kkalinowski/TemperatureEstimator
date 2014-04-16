@@ -6,10 +6,10 @@
         xmlns:vm="clr-namespace:TemperatureEstimator.ViewModels"
         xmlns:chart="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=System.Windows.Controls.DataVisualization.Toolkit"
         xmlns:vis="clr-namespace:System.Windows.Controls.DataVisualization;assembly=System.Windows.Controls.DataVisualization.Toolkit"
-        Title="Temperature Estimator" Height="500" Width="900"
+        Title="Temperature Estimator" Height="500" Width="1000"
         DataContext="{lib12:Inject vm:MainViewModel}">
-    
-    <Grid lib12:FluidGrid.Columns="*,200">
+
+    <Grid lib12:FluidGrid.Columns="*,350">
         <chart:Chart Grid.Column="0" Title="Temperature in time" BorderThickness="0">
             <chart:Chart.LegendStyle>
                 <Style TargetType="vis:Legend">
@@ -19,6 +19,10 @@
 
             <chart:LineSeries ItemsSource="{Binding Data}" IndependentValuePath="Date"
                               DependentValuePath="Temperature" IsSelectionEnabled="True"/>
-        </chart:Chart>       
+        </chart:Chart>
+
+        <Grid Grid.Column="1" lib12:FluidGrid.Rows="45">
+            <TextBlock FontSize="30" Grid.Row="0" Text="{Binding TodaysTemperature, StringFormat='Today\'s temperature - {0}'}"/>
+        </Grid>
     </Grid>
 </mah:MetroWindow>
