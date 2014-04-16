@@ -1,4 +1,6 @@
-﻿using lib12.DependencyInjection;
+﻿using System;
+using System.Linq;
+using lib12.DependencyInjection;
 using lib12.WPF.Core;
 using System.Collections.Generic;
 using TemperatureEstimator.Entities;
@@ -24,7 +26,7 @@ namespace TemperatureEstimator.ViewModels
         public MainViewModel(DataManager dataManager)
         {
             dataManager.Load(Settings.Default.Airport);
-            Data = dataManager.Data;
+            Data = dataManager.Data.Where(x => x.Date >= DateTime.Today.AddMonths(-2)).ToList();
         }
     }
 }
