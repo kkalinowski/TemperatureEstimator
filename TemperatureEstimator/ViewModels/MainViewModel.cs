@@ -46,15 +46,27 @@ namespace TemperatureEstimator.ViewModels
                 OnPropertyChanged("WeightedMeanEstimation");
             }
         }
+
+        private double armaEstimation;
+        public double ArmaEstimation
+        {
+            get { return armaEstimation; }
+            set
+            {
+                armaEstimation = value;
+                OnPropertyChanged("ArmaEstimation");
+            }
+        }
         #endregion
 
-        public MainViewModel(DataManager dataManager, WeightedMeanEngine weightedMeanEngine)
+        public MainViewModel(DataManager dataManager, WeightedMeanEngine weightedMeanEngine, ArmaEngine armaEngine)
         {
             dataManager.Load(Settings.Default.Airport);
             Data = dataManager.Data.Where(x => x.Date >= DateTime.Today.AddMonths(-2)).ToList();
 
             TodaysTemperature = Data.Last().Temperature;
-            WeightedMeanEstimation = weightedMeanEngine.Estimate(Data);
+            WeightedMeanEstimation = weightedMeanEngine.Estimate(dataManager.Data);
+            ArmaEstimation = armaEngine.Estimate(dataManager.Data);
         }
     }
 }

@@ -37,6 +37,9 @@
     <ApplicationIcon>TemperatureEstimator.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ABMath">
+      <HintPath>..\lib\ABMath.dll</HintPath>
+    </Reference>
     <Reference Include="CavemanTools">
       <HintPath>packages\CavemanTools.3.3.0\lib\Net45\CavemanTools.dll</HintPath>
     </Reference>
@@ -51,6 +54,9 @@
     </Reference>
     <Reference Include="MahApps.Metro">
       <HintPath>packages\MahApps.Metro.0.13.1.0\lib\net45\MahApps.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="MathNet.Iridium">
+      <HintPath>..\lib\MathNet.Iridium.dll</HintPath>
     </Reference>
     <Reference Include="SqlFu">
       <HintPath>packages\SqlFu.2.2.1\lib\Net45\SqlFu.dll</HintPath>
@@ -116,6 +122,7 @@
     <Compile Include="Entities\DateTemperatureMap.cs" />
     <Compile Include="Entities\IDateValue.cs" />
     <Compile Include="Entities\Location.cs" />
+    <Compile Include="EstimationEngines\ArmaEngine.cs" />
     <Compile Include="EstimationEngines\IEstimationEngine.cs" />
     <Compile Include="Logic\DataDownloader.cs" />
     <Compile Include="Logic\DataManager.cs" />
