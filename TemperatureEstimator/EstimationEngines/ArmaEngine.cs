@@ -20,7 +20,7 @@ namespace TemperatureEstimator.EstimationEngines
         public double Estimate(IEnumerable<IDateValue> dateValues)
         {
             var series = new TimeSeries();
-            dateValues.ForEach(x => series.Add(x.Date, x.Value, false));
+            dateValues.ForEach(x => series.Add(x.Date, x.Value, true));
 
             armaModel.SetInput(0, series, null);
             armaModel.FitByMLE(10, 10, 10, null);

@@ -3,6 +3,7 @@ using lib12.DependencyInjection;
 using lib12.WPF.Core;
 using MahApps.Metro.Controls;
 using TemperatureEstimator.Entities;
+using TemperatureEstimator.Logic;
 using TemperatureEstimator.Properties;
 
 namespace TemperatureEstimator.ViewModels

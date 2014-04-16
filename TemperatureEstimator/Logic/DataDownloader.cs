@@ -47,7 +47,7 @@ namespace TemperatureEstimator.Logic
             var csvReader = new CsvReader(reader);
             csvReader.Configuration.RegisterClassMap<DateTemperatureMap>();
 
-            return csvReader.GetRecords<DateTemperature>().ToArray();
+            return csvReader.GetRecords<DateTemperature>().Where(x => !double.IsNaN(x.Value)).ToArray();
         }
     }
 }

@@ -8,13 +8,7 @@ namespace TemperatureEstimator.Entities
     {
         public int Id { get; set; }
         public DateTime Date { get; set; }
-        public double Temperature { get; set; }
+        public double Value { get; set; }
         public string Airport { get; set; }
-
-        public double Value
-        {
-            get { return Temperature; }
-            set { Temperature = value; }
-        }
     }
 }

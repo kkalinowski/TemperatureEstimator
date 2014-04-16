@@ -1,4 +1,6 @@
-﻿namespace TemperatureEstimator.Entities
+﻿using TemperatureEstimator.Entities;
+
+namespace TemperatureEstimator.Logic
 {
     public class AvailableLocations
     {

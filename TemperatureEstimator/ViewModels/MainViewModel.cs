@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows.Input;
 using lib12.DependencyInjection;
 using lib12.WPF.Core;
 using System.Collections.Generic;
@@ -14,6 +17,13 @@ namespace TemperatureEstimator.ViewModels
     public class MainViewModel : NotifyingObject
     {
         #region Properties
+        [WireUp]
+        public DataManager DataManager { get; set; }
+        [WireUp]
+        public WeightedMeanEngine WeightedMeanEngine { get; set; }
+        [WireUp]
+        public ArmaEngine ArmaEngine { get; set; }
+
         private List<DateTemperature> data;
         public List<DateTemperature> Data
         {
@@ -57,16 +67,37 @@ namespace TemperatureEstimator.ViewModels
                 OnPropertyChanged("ArmaEstimation");
             }
         }
+
+        private bool isLoading;
+        public bool IsLoading
+        {
+            get { return isLoading; }
+            set
+            {
+                isLoading = value;
+                OnPropertyChanged("IsLoading");
+            }
+        }
+
+        public ICommand LoadedCommand { get; private set; }
         #endregion
 
-        public MainViewModel(DataManager dataManager, WeightedMeanEngine weightedMeanEngine, ArmaEngine armaEngine)
+        public MainViewModel()
         {
-            dataManager.Load(Settings.Default.Airport);
-            Data = dataManager.Data.Where(x => x.Date >= DateTime.Today.AddMonths(-2)).ToList();
+            IsLoading = true;
+            LoadedCommand = new DelegateCommand(x => Task.Run(() => Load()));
+        }
 
-            TodaysTemperature = Data.Last().Temperature;
-            WeightedMeanEstimation = weightedMeanEngine.Estimate(dataManager.Data);
-            ArmaEstimation = armaEngine.Estimate(dataManager.Data);
+        private void Load()
+        {
+            DataManager.Load(Settings.Default.Airport);
+            Data = DataManager.Data.Where(x => x.Date >= DateTime.Today.AddMonths(-2)).ToList();
+
+            TodaysTemperature = Data.Last().Value;
+            WeightedMeanEstimation = WeightedMeanEngine.Estimate(DataManager.Data);
+            ArmaEstimation = ArmaEngine.Estimate(Data);
+
+            IsLoading = false;
         }
     }
 }

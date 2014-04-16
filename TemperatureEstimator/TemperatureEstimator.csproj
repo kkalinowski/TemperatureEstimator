@@ -117,9 +117,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Entities\AvailableLocations.cs" />
+    <Compile Include="Logic\AvailableLocations.cs" />
     <Compile Include="Entities\DateTemperature.cs" />
-    <Compile Include="Entities\DateTemperatureMap.cs" />
+    <Compile Include="Logic\DateTemperatureMap.cs" />
     <Compile Include="Entities\IDateValue.cs" />
     <Compile Include="Entities\Location.cs" />
     <Compile Include="EstimationEngines\ArmaEngine.cs" />
@@ -127,6 +127,8 @@
     <Compile Include="Logic\DataDownloader.cs" />
     <Compile Include="Logic\DataManager.cs" />
     <Compile Include="EstimationEngines\WeightedMeanEngine.cs" />
+    <Compile Include="Logic\FailSafeCsvDoubleTypeConverter.cs" />
+    <Compile Include="Logic\LoadingOpacityConverter.cs" />
     <Compile Include="ViewModels\LocationChoiceViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="Views\LocationChoice.xaml.cs">

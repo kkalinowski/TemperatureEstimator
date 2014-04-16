@@ -16,7 +16,7 @@ namespace TemperatureEstimator.Tests
 
             result.Should().NotBeEmpty();
             result[0].Date.Should().Be(new DateTime(2014, 3, 1));
-            result[0].Temperature.Should().Be(12);
+            result[0].Value.Should().Be(12);
         }
     }
 }

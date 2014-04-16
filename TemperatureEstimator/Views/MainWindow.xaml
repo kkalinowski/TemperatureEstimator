@@ -6,11 +6,19 @@
         xmlns:vm="clr-namespace:TemperatureEstimator.ViewModels"
         xmlns:chart="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=System.Windows.Controls.DataVisualization.Toolkit"
         xmlns:vis="clr-namespace:System.Windows.Controls.DataVisualization;assembly=System.Windows.Controls.DataVisualization.Toolkit"
+        xmlns:logic="clr-namespace:TemperatureEstimator.Logic"
         Title="Temperature Estimator" Height="500" Width="1000"
         DataContext="{lib12:Inject vm:MainViewModel}">
+    
+    <lib12:EventTranscriptions.Transcriptions>
+        <lib12:EventTranscription EventName="Loaded" Command="{Binding LoadedCommand}"/>
+    </lib12:EventTranscriptions.Transcriptions>
 
-    <Grid lib12:FluidGrid.Columns="*,350">
-        <chart:Chart Grid.Column="0" Title="Temperature in time" BorderThickness="0">
+    <Grid>
+        <mah:ProgressRing Grid.ColumnSpan="2" IsActive="{Binding IsLoading}" Panel.ZIndex="1"/>
+
+        <Grid lib12:FluidGrid.Columns="*,350" Opacity="{Binding IsLoading, Converter={logic:LoadingOpacityConverter}}">
+            <chart:Chart Grid.Column="0" Title="Temperature in time" BorderThickness="0">
             <chart:Chart.LegendStyle>
                 <Style TargetType="vis:Legend">
                     <Setter Property="Width" Value="0" />
@@ -18,7 +26,7 @@
             </chart:Chart.LegendStyle>
 
             <chart:LineSeries ItemsSource="{Binding Data}" IndependentValuePath="Date"
-                              DependentValuePath="Temperature" IsSelectionEnabled="True"/>
+                              DependentValuePath="Value" IsSelectionEnabled="True"/>
         </chart:Chart>
 
         <Grid Grid.Column="1" lib12:FluidGrid.Rows="45,45,45">
@@ -26,5 +34,7 @@
             <TextBlock FontSize="20" Grid.Row="1" Text="{Binding WeightedMeanEstimation, StringFormat='Weighted\'s mean estimation - {0:F2}'}"/>
             <TextBlock FontSize="20" Grid.Row="2" Text="{Binding ArmaEstimation, StringFormat='ARMA\'s estimation - {0:F2}'}"/>
         </Grid>
+    </Grid>
+
     </Grid>
 </mah:MetroWindow>
