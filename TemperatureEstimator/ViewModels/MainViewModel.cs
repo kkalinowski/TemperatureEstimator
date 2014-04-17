@@ -25,6 +25,8 @@ namespace TemperatureEstimator.ViewModels
         public ArmaEngine ArmaEngine { get; set; }
         [WireUp]
         public NeuronNetworkEngine NeuronNetworkEngine { get; set; }
+        [WireUp]
+        public TrendEngine TrendEngine { get; set; }
 
         private List<DateTemperature> data;
         public List<DateTemperature> Data
@@ -81,6 +83,17 @@ namespace TemperatureEstimator.ViewModels
             }
         }
 
+        private double trendEstimation;
+        public double TrendEstimation
+        {
+            get { return trendEstimation; }
+            set
+            {
+                trendEstimation = value;
+                OnPropertyChanged("TrendEstimation");
+            }
+        }
+
         private bool isLoading;
         public bool IsLoading
         {
@@ -110,6 +123,7 @@ namespace TemperatureEstimator.ViewModels
             WeightedMeanEstimation = WeightedMeanEngine.Estimate(DataManager.Data);
             ArmaEstimation = ArmaEngine.Estimate(Data);
             NeuronNetworkEstimation = NeuronNetworkEngine.Estimate(DataManager.Data);
+            TrendEstimation = TrendEngine.Estimate(Data);
 
             IsLoading = false;
         }

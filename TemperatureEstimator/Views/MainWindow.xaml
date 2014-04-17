@@ -29,11 +29,12 @@
                               DependentValuePath="Value" IsSelectionEnabled="True"/>
         </chart:Chart>
 
-        <Grid Grid.Column="1" lib12:FluidGrid.Rows="45,45,45,45">
+        <Grid Grid.Column="1" lib12:FluidGrid.Rows="45,45,45,45,45">
             <TextBlock FontSize="20" Grid.Row="0" Text="{Binding TodaysTemperature, StringFormat='Today\'s temperature - {0:F2}'}"/>
             <TextBlock FontSize="20" Grid.Row="1" Text="{Binding WeightedMeanEstimation, StringFormat='Weighted\'s mean estimation - {0:F2}'}"/>
             <TextBlock FontSize="20" Grid.Row="2" Text="{Binding ArmaEstimation, StringFormat='ARMA\'s estimation - {0:F2}'}"/>
             <TextBlock FontSize="20" Grid.Row="3" Text="{Binding NeuronNetworkEstimation, StringFormat='Neuron network\'s estimation - {0:F2}'}"/>
+            <TextBlock FontSize="20" Grid.Row="4" Text="{Binding TrendEstimation, StringFormat='Trend\'s estimation - {0:F2}'}"/>
         </Grid>
     </Grid>
 

@@ -124,6 +124,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="EstimationEngines\NeuronNetworkEngine.cs" />
+    <Compile Include="EstimationEngines\TrendEngine.cs" />
     <Compile Include="Logic\AvailableLocations.cs" />
     <Compile Include="Entities\DateTemperature.cs" />
     <Compile Include="Logic\DateTemperatureMap.cs" />
