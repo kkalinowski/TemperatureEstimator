@@ -5,6 +5,7 @@ namespace TemperatureEstimator.EstimationEngines
 {
     public interface IEstimationEngine
     {
-        double Estimate(IEnumerable<IDateValue> dateValues);
+        EstimationResult Estimate(IEnumerable<IDateValue> dateValues);
+        Estimator Estimator { get; }
     }
 }

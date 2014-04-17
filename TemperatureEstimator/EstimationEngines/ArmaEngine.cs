@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using ABMath.ModelFramework.Data;
+﻿using ABMath.ModelFramework.Data;
 using ABMath.ModelFramework.Models;
 using lib12.Collections;
 using lib12.DependencyInjection;
+using System.Collections.Generic;
 using TemperatureEstimator.Entities;
 
 namespace TemperatureEstimator.EstimationEngines
@@ -12,12 +12,14 @@ namespace TemperatureEstimator.EstimationEngines
     {
         private readonly ARMAModel armaModel;
 
+        public Estimator Estimator { get { return Estimator.ARMA; } }
+
         public ArmaEngine()
         {
             armaModel = new ARMAModel(4, 2);
         }
 
-        public double Estimate(IEnumerable<IDateValue> dateValues)
+        public EstimationResult Estimate(IEnumerable<IDateValue> dateValues)
         {
             var series = new TimeSeries();
             dateValues.ForEach(x => series.Add(x.Date, x.Value, true));
@@ -25,9 +27,9 @@ namespace TemperatureEstimator.EstimationEngines
             armaModel.SetInput(0, series, null);
             armaModel.FitByMLE(200, 100, 0, null);
             armaModel.ComputeResidualsAndOutputs();
-            
+
             var result = armaModel.GetOutput(3) as TimeSeries;
-            return result[0];
+            return EstimationResult.Create(result[0], this);
         }
     }
 }

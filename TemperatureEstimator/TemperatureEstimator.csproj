@@ -123,6 +123,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="EstimationEngines\EstimationResult.cs" />
+    <Compile Include="EstimationEngines\Estimator.cs" />
     <Compile Include="EstimationEngines\NeuronNetworkEngine.cs" />
     <Compile Include="EstimationEngines\TrendEngine.cs" />
     <Compile Include="Logic\AvailableLocations.cs" />

@@ -11,7 +11,9 @@ namespace TemperatureEstimator.EstimationEngines
         private const int SampleLength = 14;
         private const double NextWeightCoefficent = 0.7;
 
-        public double Estimate(IEnumerable<IDateValue> dateValues)
+        public Estimator Estimator { get { return Estimator.Trend; } }
+
+        public EstimationResult Estimate(IEnumerable<IDateValue> dateValues)
         {
             var data = dateValues.Select(x => x.Value).Reverse().ToArray();
             var weight = 1.0;
@@ -26,7 +28,7 @@ namespace TemperatureEstimator.EstimationEngines
             }
 
             trend /= weightSum;
-            return data[0] + trend;
+            return EstimationResult.Create(data[0] + trend, this);
         }
     }
 }

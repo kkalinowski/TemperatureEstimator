@@ -1,11 +1,11 @@
-﻿using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Input;
+﻿using lib12.Core;
 using lib12.DependencyInjection;
 using lib12.WPF.Core;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Input;
 using TemperatureEstimator.Entities;
 using TemperatureEstimator.EstimationEngines;
 using TemperatureEstimator.Logic;
@@ -19,14 +19,6 @@ namespace TemperatureEstimator.ViewModels
         #region Properties
         [WireUp]
         public DataManager DataManager { get; set; }
-        [WireUp]
-        public WeightedMeanEngine WeightedMeanEngine { get; set; }
-        [WireUp]
-        public ArmaEngine ArmaEngine { get; set; }
-        [WireUp]
-        public NeuronNetworkEngine NeuronNetworkEngine { get; set; }
-        [WireUp]
-        public TrendEngine TrendEngine { get; set; }
 
         private List<DateTemperature> data;
         public List<DateTemperature> Data
@@ -50,47 +42,14 @@ namespace TemperatureEstimator.ViewModels
             }
         }
 
-        private double weightedMeanEstimation;
-        public double WeightedMeanEstimation
+        private List<EstimationResult> results;
+        public List<EstimationResult> Results
         {
-            get { return weightedMeanEstimation; }
+            get { return results; }
             set
             {
-                weightedMeanEstimation = value;
-                OnPropertyChanged("WeightedMeanEstimation");
-            }
-        }
-
-        private double armaEstimation;
-        public double ArmaEstimation
-        {
-            get { return armaEstimation; }
-            set
-            {
-                armaEstimation = value;
-                OnPropertyChanged("ArmaEstimation");
-            }
-        }
-
-        private double neuronNetworkEstimation;
-        public double NeuronNetworkEstimation
-        {
-            get { return neuronNetworkEstimation; }
-            set
-            {
-                neuronNetworkEstimation = value;
-                OnPropertyChanged("NeuronNetworkEstimation");
-            }
-        }
-
-        private double trendEstimation;
-        public double TrendEstimation
-        {
-            get { return trendEstimation; }
-            set
-            {
-                trendEstimation = value;
-                OnPropertyChanged("TrendEstimation");
+                results = value;
+                OnPropertyChanged("Results");
             }
         }
 
@@ -114,18 +73,67 @@ namespace TemperatureEstimator.ViewModels
             LoadedCommand = new DelegateCommand(x => Task.Run(() => Load()));
         }
 
+        private List<IEstimationEngine> LoadAlgorithms()
+        {
+            return new List<IEstimationEngine>
+            {
+                Instances.Get<WeightedMeanEngine>(),
+                Instances.Get<TrendEngine>(),
+                Instances.Get<ArmaEngine>(),
+                Instances.Get<NeuronNetworkEngine>()
+            };
+        }
+
         private void Load()
         {
             DataManager.Load(Settings.Default.Airport);
+            var algorithms = LoadAlgorithms();
             Data = DataManager.Data.Where(x => x.Date >= DateTime.Today.AddMonths(-2)).ToList();
-
             TodaysTemperature = Data.Last().Value;
-            WeightedMeanEstimation = WeightedMeanEngine.Estimate(DataManager.Data);
-            ArmaEstimation = ArmaEngine.Estimate(Data);
-            NeuronNetworkEstimation = NeuronNetworkEngine.Estimate(DataManager.Data);
-            TrendEstimation = TrendEngine.Estimate(Data);
 
+            var result = algorithms.Select(x => x.Estimate(Data)).ToList();
+            ComputeErrors(result);
+            Results = result;
+
+            SaveEstimation();
             IsLoading = false;
+        }
+
+        private void ComputeErrors(IEnumerable<EstimationResult> result)
+        {
+            var weightedMeanError = 0.0;
+            var trendError = 0.0;
+            var armaError = 0.0;
+            var neuronNetworkError = 0.0;
+            var estimatesCount = 0;
+
+            for (int i = 0; i < Data.Count - 1; i++)
+            {
+                if (Data[i].WeightedMeanEstimation.HasValue)
+                {
+                    weightedMeanError += Math.Abs(Data[i].WeightedMeanEstimation.Value - Data[i + 1].Value);
+                    trendError += Math.Abs(Data[i].TrendEstimation.Value - Data[i + 1].Value);
+                    armaError += Math.Abs(Data[i].ArmaEstimation.Value - Data[i + 1].Value);
+                    neuronNetworkError += Math.Abs(Data[i].NeuronNetworkEstimation.Value - Data[i + 1].Value);
+                    estimatesCount++;
+                }
+            }
+
+            result.First(x => x.Estimator == Estimator.WeightedMean).Error = Math2.DivWithZero(weightedMeanError, estimatesCount);
+            result.First(x => x.Estimator == Estimator.Trend).Error = Math2.DivWithZero(trendError, estimatesCount);
+            result.First(x => x.Estimator == Estimator.NeuronNetwork).Error = Math2.DivWithZero(neuronNetworkError, estimatesCount);
+            result.First(x => x.Estimator == Estimator.ARMA).Error = Math2.DivWithZero(armaError, estimatesCount);
+        }
+
+        private void SaveEstimation()
+        {
+            var todaysData = Data.Last();
+            todaysData.WeightedMeanEstimation = Results.First(x => x.Estimator == Estimator.WeightedMean).Value;
+            todaysData.TrendEstimation = Results.First(x => x.Estimator == Estimator.Trend).Value;
+            todaysData.NeuronNetworkEstimation = Results.First(x => x.Estimator == Estimator.NeuronNetwork).Value;
+            todaysData.ArmaEstimation = Results.First(x => x.Estimator == Estimator.ARMA).Value;
+
+            DataManager.Save(todaysData);
         }
     }
 }

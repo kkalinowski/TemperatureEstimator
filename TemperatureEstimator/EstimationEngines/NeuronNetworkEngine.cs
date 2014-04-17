@@ -17,7 +17,9 @@ namespace TemperatureEstimator.EstimationEngines
         private const double SigmoidAlphaValue = 2.0;
         private const int LayerWidth = 5;
 
-        public double Estimate(IEnumerable<IDateValue> dateValues)
+        public Estimator Estimator { get { return Estimator.NeuronNetwork; } }
+
+        public EstimationResult Estimate(IEnumerable<IDateValue> dateValues)
         {
             var data = dateValues.ToArray();
             var samplesCount = data.Length - LayerWidth;
@@ -68,7 +70,7 @@ namespace TemperatureEstimator.EstimationEngines
                 }
             });
 
-            return solution[0, 1];
+            return EstimationResult.Create(solution[0, 1], this);
         }
     }
 }

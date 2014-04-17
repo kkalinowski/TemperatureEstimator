@@ -56,5 +56,13 @@ namespace TemperatureEstimator.Logic
 
             Data.AddRange(missingData);
         }
+
+        public void Save(DateTemperature data)
+        {
+            using (var db = SqlFuDao.GetConnection())
+            {
+                db.Update<DateTemperature>(data);
+            }
+        }
     }
 }

@@ -10,5 +10,10 @@ namespace TemperatureEstimator.Entities
         public DateTime Date { get; set; }
         public double Value { get; set; }
         public string Airport { get; set; }
+
+        public double? WeightedMeanEstimation { get; set; }
+        public double? TrendEstimation { get; set; }
+        public double? NeuronNetworkEstimation { get; set; }
+        public double? ArmaEstimation { get; set; }
     }
 }
