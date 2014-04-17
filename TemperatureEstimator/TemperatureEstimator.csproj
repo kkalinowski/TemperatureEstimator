@@ -40,6 +40,12 @@
     <Reference Include="ABMath">
       <HintPath>..\lib\ABMath.dll</HintPath>
     </Reference>
+    <Reference Include="AForge">
+      <HintPath>..\lib\AForge.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Neuro">
+      <HintPath>..\lib\AForge.Neuro.dll</HintPath>
+    </Reference>
     <Reference Include="CavemanTools">
       <HintPath>packages\CavemanTools.3.3.0\lib\Net45\CavemanTools.dll</HintPath>
     </Reference>
@@ -117,6 +123,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="EstimationEngines\NeuronNetworkEngine.cs" />
     <Compile Include="Logic\AvailableLocations.cs" />
     <Compile Include="Entities\DateTemperature.cs" />
     <Compile Include="Logic\DateTemperatureMap.cs" />

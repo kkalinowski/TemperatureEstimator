@@ -23,6 +23,8 @@ namespace TemperatureEstimator.ViewModels
         public WeightedMeanEngine WeightedMeanEngine { get; set; }
         [WireUp]
         public ArmaEngine ArmaEngine { get; set; }
+        [WireUp]
+        public NeuronNetworkEngine NeuronNetworkEngine { get; set; }
 
         private List<DateTemperature> data;
         public List<DateTemperature> Data
@@ -68,6 +70,17 @@ namespace TemperatureEstimator.ViewModels
             }
         }
 
+        private double neuronNetworkEstimation;
+        public double NeuronNetworkEstimation
+        {
+            get { return neuronNetworkEstimation; }
+            set
+            {
+                neuronNetworkEstimation = value;
+                OnPropertyChanged("NeuronNetworkEstimation");
+            }
+        }
+
         private bool isLoading;
         public bool IsLoading
         {
@@ -96,6 +109,7 @@ namespace TemperatureEstimator.ViewModels
             TodaysTemperature = Data.Last().Value;
             WeightedMeanEstimation = WeightedMeanEngine.Estimate(DataManager.Data);
             ArmaEstimation = ArmaEngine.Estimate(Data);
+            NeuronNetworkEstimation = NeuronNetworkEngine.Estimate(DataManager.Data);
 
             IsLoading = false;
         }
