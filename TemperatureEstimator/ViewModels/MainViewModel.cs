@@ -1,4 +1,7 @@
-﻿using lib12.Core;
+﻿using System.Diagnostics;
+using System.Windows;
+using System.Windows.Navigation;
+using lib12.Core;
 using lib12.DependencyInjection;
 using lib12.WPF.Core;
 using System;
@@ -6,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using lib12.WPF.EventTranscriptions;
 using TemperatureEstimator.Entities;
 using TemperatureEstimator.EstimationEngines;
 using TemperatureEstimator.Logic;
@@ -65,12 +69,16 @@ namespace TemperatureEstimator.ViewModels
         }
 
         public ICommand LoadedCommand { get; private set; }
+        public ICommand InfoCommand { get; private set; }
+        public ICommand AppInfoCommand { get; private set; }
         #endregion
 
         public MainViewModel()
         {
             IsLoading = true;
             LoadedCommand = new DelegateCommand(x => Task.Run(() => Load()));
+            InfoCommand = new DelegateCommand<EventTranscriptionParameter<RequestNavigateEventArgs>>(ExecuteInfo);
+            AppInfoCommand = new DelegateCommand(ExecuteAppInfoCommand);
         }
 
         private List<IEstimationEngine> LoadAlgorithms()
@@ -134,6 +142,18 @@ namespace TemperatureEstimator.ViewModels
             todaysData.ArmaEstimation = Results.First(x => x.Estimator == Estimator.ARMA).Value;
 
             DataManager.Save(todaysData);
+        }
+
+        private void ExecuteInfo(EventTranscriptionParameter<RequestNavigateEventArgs> e)
+        {
+            Process.Start(new ProcessStartInfo(e.EventArgs.Uri.AbsoluteUri));
+            e.EventArgs.Handled = true;
+        }
+
+        private void ExecuteAppInfoCommand(object obj)
+        {
+            MessageBox.Show("Application created by Krzysztof Kalinowski - kkalinowski.net \nDownloads temperature from previous days and uses various algorithms to predicts future weather.",
+                "Temperature Estimator - Info");
         }
     }
 }

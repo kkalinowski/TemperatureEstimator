@@ -10,6 +10,8 @@ namespace TemperatureEstimator.EstimationEngines
     public class WeightedMeanEngine : IEstimationEngine
     {
         public Estimator Estimator { get { return Estimator.WeightedMean; } }
+        public string EstimatorName { get { return "Weighted mean"; } }
+        public string EstimatorInfo { get { return "https://en.wikipedia.org/wiki/Weighted_arithmetic_mean"; } }
 
         public EstimationResult Estimate(IEnumerable<IDateValue> dateValues)
         {

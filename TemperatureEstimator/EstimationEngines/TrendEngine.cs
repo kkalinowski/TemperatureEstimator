@@ -12,6 +12,8 @@ namespace TemperatureEstimator.EstimationEngines
         private const double NextWeightCoefficent = 0.7;
 
         public Estimator Estimator { get { return Estimator.Trend; } }
+        public string EstimatorName { get { return "Trend estimation"; } }
+        public string EstimatorInfo { get { return "https://en.wikipedia.org/wiki/Trend_estimation"; } }
 
         public EstimationResult Estimate(IEnumerable<IDateValue> dateValues)
         {

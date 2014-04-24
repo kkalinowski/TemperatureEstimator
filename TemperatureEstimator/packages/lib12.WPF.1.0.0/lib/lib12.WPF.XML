@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>lib12.WPF</name>
+    </assembly>
+    <members>
+        <member name="T:lib12.WPF.EventTranscriptions.EventTranscription">
+            <summary>
+            Defines an Event transcription
+            This inherits from freezable so that it gets inheritance context for DataBinding to work
+            </summary>
+        </member>
+        <member name="T:lib12.WPF.EventTranscriptions.EventTranscriptions">
+            <summary>
+            Transcribes events into commands. Based on http://marlongrech.wordpress.com/2008/12/13/attachedcommandbehavior-v2-aka-acb/
+            </summary>
+        </member>
+        <member name="T:lib12.WPF.EventTranscriptions.EventHandlerTranscriber">
+            <summary>
+            Transcribes one event handler into another, from http://stackoverflow.com/a/1814231/578560
+            </summary>
+        </member>
+        <member name="T:lib12.WPF.EventTranscriptions.EventTranscriptionsCollection">
+            <summary>
+            Collection to store the list of event transcriptions, inherits from freezable so that it gets inheritance context for DataBinding to work
+            </summary>
+        </member>
+        <member name="P:lib12.WPF.EventTranscriptions.EventTranscriptionsCollection.Owner">
+            <summary>
+            Gets or sets the Owner of the binding
+            </summary>
+        </member>
+        <member name="M:lib12.WPF.Extensions.ApplicationExtension.FindStyle(System.Windows.Application,System.Object)">
+            <summary>
+            Finds the style in application resources
+            </summary>
+            <param name="key">Key of searched resource</param>
+        </member>
+        <member name="M:lib12.WPF.Extensions.ApplicationExtension.FindBrush(System.Windows.Application,System.Object)">
+            <summary>
+            Finds the brush in application resources
+            </summary>
+            <param name="key">Key of searched resource</param>
+        </member>
+        <member name="M:lib12.WPF.Extensions.ContextMenuExtension.Open(System.Windows.Controls.ContextMenu)">
+            <summary>
+            Opens context menu
+            </summary>
+        </member>
+        <member name="M:lib12.WPF.Extensions.ContextMenuExtension.Close(System.Windows.Controls.ContextMenu)">
+            <summary>
+            Closes context menu
+            </summary>
+        </member>
+        <member name="M:lib12.WPF.Extensions.PopupExtension.Open(System.Windows.Controls.Primitives.Popup)">
+            <summary>
+            Opens popup
+            </summary>
+        </member>
+        <member name="M:lib12.WPF.Extensions.PopupExtension.Close(System.Windows.Controls.Primitives.Popup)">
+            <summary>
+            Closes popup
+            </summary>
+        </member>
+        <member name="M:lib12.WPF.Core.NotifyingObject.OnPropertyChanged(System.String)">
+            <summary>
+            Raise PropertyChanged event for specified property
+            </summary>
+            <param name="propertyName">Property to notify change</param>
+        </member>
+        <member name="T:lib12.WPF.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:lib12.WPF.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:lib12.WPF.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="T:lib12.WPF.TemplateSelectors.DataBasedTemplateSelector">
+            <summary>
+            Choses a approperiate data template for the object from the internal collection.
+            </summary>
+        </member>
+        <member name="T:lib12.WPF.TemplateSelectors.TypeTemplateSelector">
+            <summary>
+            Choses a approperiate data template for the object from the internal collection.
+            </summary>
+        </member>
+    </members>
+</doc>

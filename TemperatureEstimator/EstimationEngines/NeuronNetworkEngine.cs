@@ -18,6 +18,8 @@ namespace TemperatureEstimator.EstimationEngines
         private const int LayerWidth = 5;
 
         public Estimator Estimator { get { return Estimator.NeuronNetwork; } }
+        public string EstimatorName { get { return "Neural network"; } }
+        public string EstimatorInfo { get { return "https://en.wikipedia.org/wiki/Neural_network"; } }
 
         public EstimationResult Estimate(IEnumerable<IDateValue> dateValues)
         {

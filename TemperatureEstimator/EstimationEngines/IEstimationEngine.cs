@@ -7,5 +7,7 @@ namespace TemperatureEstimator.EstimationEngines
     {
         EstimationResult Estimate(IEnumerable<IDateValue> dateValues);
         Estimator Estimator { get; }
+        string EstimatorName { get; }
+        string EstimatorInfo { get; }
     }
 }

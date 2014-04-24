@@ -8,7 +8,7 @@
         xmlns:vis="clr-namespace:System.Windows.Controls.DataVisualization;assembly=System.Windows.Controls.DataVisualization.Toolkit"
         xmlns:logic="clr-namespace:TemperatureEstimator.Logic"
         Title="Temperature Estimator" Height="500" Width="1000"
-        DataContext="{lib12:Inject vm:MainViewModel}">
+        Name="_this" DataContext="{lib12:Inject vm:MainViewModel}">
 
     <lib12:EventTranscriptions.Transcriptions>
         <lib12:EventTranscription EventName="Loaded" Command="{Binding LoadedCommand}"/>
@@ -30,16 +30,25 @@
             </chart:Chart>
 
 
-            <Grid Grid.Column="1" lib12:FluidGrid.Rows="45,*" Margin="0,15,0,0">
-                <TextBlock Grid.Row="0" FontSize="20" Text="{Binding TodaysTemperature, StringFormat='Today\'s temperature - {0:F2}'}"/>
-                <ItemsControl Grid.Row="1" ItemsSource="{Binding Results}">
+            <Grid Grid.Column="1" lib12:FluidGrid.Rows="45,*" lib12:FluidGrid.Columns="*,70" Margin="0,15,0,0">
+                <TextBlock Grid.Row="0" Grid.Column="0" FontSize="20" Text="{Binding TodaysTemperature, StringFormat='Today\'s temperature - {0:F2}'}"/>
+                <Button Grid.Row="0" Grid.Column="1" Content="Info" Height="23" Margin="0,-12,3,0" Command="{Binding AppInfoCommand}"/>
+                <ItemsControl Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding Results}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <StackPanel Margin="0,3,0,0">
-                                <TextBlock Text="{Binding Estimator}" FontSize="16"/>
-                                <TextBlock Text="{Binding Value, StringFormat='Value - {0:F2}'}"/>
-                                <TextBlock Text="{Binding Error, StringFormat='Error - {0:F2}'}"/>
-                            </StackPanel>
+                            <Grid lib12:FluidGrid.StackRows="3" lib12:FluidGrid.Columns="Auto,55" Margin="0,3,0,0">
+                                <TextBlock Grid.Column="1" Grid.Row="0" Margin="3,4,0,0">           
+                                    <Hyperlink NavigateUri="{Binding EstimatorInfo}">
+                                            <lib12:EventTranscriptions.Transcriptions>
+                                                <lib12:EventTranscription EventName="RequestNavigate" Command="{Binding DataContext.InfoCommand, ElementName=_this}"/>
+                                            </lib12:EventTranscriptions.Transcriptions>
+                                        Info
+                                    </Hyperlink>
+                                </TextBlock>
+                                <TextBlock Grid.Column="0" Grid.Row="0" Text="{Binding EstimatorName}" FontSize="16"/>
+                                <TextBlock Grid.Column="0" Grid.Row="1" Text="{Binding Value, StringFormat='Value - {0:F2}'}"/>
+                                <TextBlock Grid.Column="0" Grid.Row="2" Text="{Binding Error, StringFormat='Error - {0:F2}'}"/>
+                            </Grid>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>

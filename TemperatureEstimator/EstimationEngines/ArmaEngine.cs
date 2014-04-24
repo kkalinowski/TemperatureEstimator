@@ -13,6 +13,8 @@ namespace TemperatureEstimator.EstimationEngines
         private readonly ARMAModel armaModel;
 
         public Estimator Estimator { get { return Estimator.ARMA; } }
+        public string EstimatorName { get { return "ARMA"; } }
+        public string EstimatorInfo { get { return "https://en.wikipedia.org/wiki/Autoregressive%E2%80%93moving-average_model"; } }
 
         public ArmaEngine()
         {
